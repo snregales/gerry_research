@@ -19,6 +19,7 @@ OWNER_LOWER_COLUMN = "Owners lower bound"
 OWNER_UPPER_COLUMN = "Owners upper bound"
 PLAYTIME_COLUMN = "Playtime (Median)"
 DEVELOPER_COLUMN = "Developer(s)"
+MULTI_DEVELOPER_COLUMN = "Multi Dev"
 PUBLISHER_COLUMN = "Publisher(s)"
 EARLY_ACCESS_COLUMN = "Early access"
 INDIE_COLUMN = "Indie"
@@ -34,4 +35,5 @@ EXPORT_COLUMNS = [
     PUBLISHER_COLUMN,
     EARLY_ACCESS_COLUMN,
     INDIE_COLUMN,
+    MULTI_DEVELOPER_COLUMN,
 ]

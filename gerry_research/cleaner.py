@@ -55,12 +55,18 @@ def clean_owner_datapoints(df: pd.DataFrame):
     df[cnst.OWNER_UPPER_COLUMN] = str_to_number_column(df, cnst.OWNER_UPPER_COLUMN)
 
 
+def clean_price_datapoints(df: pd.DataFrame):
+    df.loc[df[cnst.PRICE_COLUMN] == "Free", cnst.PRICE_COLUMN] = 0.00
+
+
 def clean(df: pd.DataFrame) -> pd.DataFrame:
     clean_owner_datapoints(df)
+    clean_price_datapoints(df)
     df[cnst.SCORE_COLUMN_CLEAN] = cleanup_scores(
         df, pattern=r"^.*\(.*(\d{2,3}).*\)$", column=cnst.SCORE_COLUMN
     )
     df[cnst.EARLY_ACCESS_COLUMN] = mark_early_access_column(df)
     df[cnst.INDIE_COLUMN] = mark_indie_column(df)
+    df[cnst.MULTI_DEVELOPER_COLUMN] = df[cnst.DEVELOPER_COLUMN].str.count(",") > 0
     df = filter_less_or_equal_than(df, column=cnst.OWNER_LOWER_COLUMN, number=20_000)
     return df[cnst.EXPORT_COLUMNS]

@@ -56,7 +56,16 @@ def clean_owner_datapoints(df: pd.DataFrame):
 
 
 def clean_price_datapoints(df: pd.DataFrame):
-    df.loc[df[cnst.PRICE_COLUMN] == "Free", cnst.PRICE_COLUMN] = 0.00
+    df.loc[df[cnst.PRICE_COLUMN] == "Free", cnst.PRICE_COLUMN] = "0.00"
+    df[cnst.PRICE_CATEGORY_COLUMN] = (
+        pd.cut(
+            df[cnst.PRICE_COLUMN].astype(np.float16),
+            cnst.PRICE_BINS,
+            labels=cnst.PRICE_LABELS,
+        )
+        .fillna(1)
+        .astype(np.int8)
+    )
 
 
 def clean(df: pd.DataFrame) -> pd.DataFrame:

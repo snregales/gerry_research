@@ -1,4 +1,5 @@
 import pathlib
+import numpy as np
 
 ROOT_PATH = pathlib.Path(__file__).parent.parent
 DATA_DIR = ROOT_PATH / "data"
@@ -14,6 +15,9 @@ SCORE_COLUMN_CLEAN = "Score (%)"
 GAME_COLUMN = "Game"
 RELEASE_COLUMN = "Release date"
 PRICE_COLUMN = "Price"
+PRICE_BINS = [0, 10, 30, 50, np.inf]
+PRICE_LABELS = [1, 2, 3, 4]
+PRICE_CATEGORY_COLUMN = "Price Category"
 OWNER_COLUMN = "Owners"
 OWNER_LOWER_COLUMN = "Owners lower bound"
 OWNER_UPPER_COLUMN = "Owners upper bound"
@@ -27,13 +31,14 @@ EXPORT_COLUMNS = [
     GAME_COLUMN,
     RELEASE_COLUMN,
     PRICE_COLUMN,
+    PRICE_CATEGORY_COLUMN,
     SCORE_COLUMN_CLEAN,
     OWNER_LOWER_COLUMN,
     OWNER_UPPER_COLUMN,
     PLAYTIME_COLUMN,
     DEVELOPER_COLUMN,
+    MULTI_DEVELOPER_COLUMN,
     PUBLISHER_COLUMN,
     EARLY_ACCESS_COLUMN,
     INDIE_COLUMN,
-    MULTI_DEVELOPER_COLUMN,
 ]

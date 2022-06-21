@@ -9,18 +9,21 @@ from gerry_research import constants as cnst
 
 
 # https://stackoverflow.com/questions/28766133/faster-way-to-read-excel-files-to-pandas-dataframe
-def read_excel(path: str, sheet_name: str, na_values: list[str] = None) -> pd.DataFrame:
+def read_excel(
+    path: str, sheet_name: str, na_values: list[str] = None, dropna: bool = True
+) -> pd.DataFrame:
     buffer = StringIO()
     (Xlsx2csv(path, outputencoding="utf-8", sheet_name=sheet_name).convert(buffer))
     buffer.seek(0)
+    data = pd.read_csv(buffer, na_values=na_values or [])
     return (
-        pd.read_csv(buffer, na_values=na_values)
-        .dropna(
+        data.dropna(
             subset=[
                 cnst.SCORE_COLUMN,
             ],
-        )
-        .reset_index()
+        ).reset_index()
+        if dropna
+        else data
     )
 
 

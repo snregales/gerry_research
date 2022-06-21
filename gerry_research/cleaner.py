@@ -1,10 +1,12 @@
-import pandas as pd
+import pathlib as pl
+
 import numpy as np
+import pandas as pd
 
-from gerry_research import constants as cnst
 from gerry_research import collector
+from gerry_research import constants as cnst
 
-__all__ = ['clean']
+__all__ = ["clean"]
 
 
 def str_to_number_column(df: pd.DataFrame, column: str) -> pd.Series:
@@ -21,16 +23,28 @@ def cleanup_scores(df: pd.DataFrame, pattern: str, column: str) -> pd.Series:
     )
 
 
-def filter_less_than(df: pd.DataFrame, column: str, number: int) -> pd.DataFrame:
+def filter_less_or_equal_than(
+    df: pd.DataFrame, column: str, number: int
+) -> pd.DataFrame:
     return df.loc[df[column] > number]
 
 
-def mark_early_access_column(df: pd.DataFrame, indicator_column: str) -> pd.Series:
+def boolean_column(
+    df: pd.DataFrame, data_path: pl.Path, indicator_column: str
+) -> pd.Series:
     return df[indicator_column].isin(
-        collector.read_excel(cnst.EX_EARLY_ACCESS, sheet_name=cnst.DATA_SHEET)[
+        collector.read_excel(str(data_path), sheet_name=cnst.DATA_SHEET)[
             indicator_column
         ]
     )
+
+
+def mark_early_access_column(df: pd.DataFrame) -> pd.Series:
+    return boolean_column(df, cnst.EARLY_ACCESS, cnst.GAME_COLUMN)
+
+
+def mark_indie_column(df: pd.DataFrame) -> pd.Series:
+    return boolean_column(df, cnst.INDIE_FILE, cnst.GAME_COLUMN)
 
 
 def clean_owner_datapoints(df: pd.DataFrame):
@@ -38,8 +52,7 @@ def clean_owner_datapoints(df: pd.DataFrame):
         df, pattern=r"\s\.\.\s", column=cnst.OWNER_COLUMN
     )
     df[cnst.OWNER_LOWER_COLUMN] = str_to_number_column(df, cnst.OWNER_LOWER_COLUMN)
-    df = filter_less_than(df, column=cnst.OWNER_LOWER_COLUMN, number=20_000)
-    df[cnst.OWNER_LOWER_COLUMN] = str_to_number_column(df, cnst.OWNER_UPPER_COLUMN)
+    df[cnst.OWNER_UPPER_COLUMN] = str_to_number_column(df, cnst.OWNER_UPPER_COLUMN)
 
 
 def clean(df: pd.DataFrame) -> pd.DataFrame:
@@ -47,7 +60,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     df[cnst.SCORE_COLUMN_CLEAN] = cleanup_scores(
         df, pattern=r"^.*\(.*(\d{2,3}).*\)$", column=cnst.SCORE_COLUMN
     )
-    df[cnst.EARLY_ACCESS_COLUMN] = mark_early_access_column(
-        df, indicator_column=cnst.GAME_COLUMN
-    )
+    df[cnst.EARLY_ACCESS_COLUMN] = mark_early_access_column(df)
+    df[cnst.INDIE_COLUMN] = mark_indie_column(df)
+    df = filter_less_or_equal_than(df, column=cnst.OWNER_LOWER_COLUMN, number=20_000)
     return df[cnst.EXPORT_COLUMNS]

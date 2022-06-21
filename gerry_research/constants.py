@@ -6,6 +6,7 @@ OUTPUT_DIR = ROOT_PATH / "output"
 OUTPUT_FILE = OUTPUT_DIR / "game_data.xlsx"
 EARLY_ACCESS = DATA_DIR / "early_access.xlsx"
 EX_EARLY_ACCESS = DATA_DIR / "ex_early_access.xlsx"
+INDIE_FILE = DATA_DIR / "indie.xlsx"
 DATA_FILES = list(DATA_DIR.glob(r"*.xlsx"))
 DATA_SHEET = "Sheet1"
 SCORE_COLUMN = "Score rank(Userscore / Metascore)"
@@ -20,6 +21,7 @@ PLAYTIME_COLUMN = "Playtime (Median)"
 DEVELOPER_COLUMN = "Developer(s)"
 PUBLISHER_COLUMN = "Publisher(s)"
 EARLY_ACCESS_COLUMN = "Early access"
+INDIE_COLUMN = "Indie"
 EXPORT_COLUMNS = [
     GAME_COLUMN,
     RELEASE_COLUMN,
@@ -31,4 +33,5 @@ EXPORT_COLUMNS = [
     DEVELOPER_COLUMN,
     PUBLISHER_COLUMN,
     EARLY_ACCESS_COLUMN,
+    INDIE_COLUMN,
 ]

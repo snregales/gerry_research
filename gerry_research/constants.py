@@ -15,6 +15,7 @@ SCORE_COLUMN = "Score rank(Userscore / Metascore)"
 SCORE_COLUMN_CLEAN = "Score (%)"
 GAME_COLUMN = "Game"
 RELEASE_COLUMN = "Release date"
+RELEASE_FORMAT = "%b %d, %Y"
 PRICE_COLUMN = "Price"
 PRICE_BINS = [0, 10, 30, 50, np.inf]
 PRICE_LABELS = [1, 2, 3, 4]

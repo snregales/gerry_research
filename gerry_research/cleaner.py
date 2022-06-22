@@ -9,6 +9,14 @@ from gerry_research import constants as cnst
 __all__ = ["clean"]
 
 
+def str_to_year(df: pd.DataFrame, column: str) -> pd.Series:
+    return (
+        df[column]
+        .replace(to_replace=r"^.*(\d{4})$", value=r"\1", regex=True)
+        .astype(np.int16, errors="ignore")
+    )
+
+
 def str_to_number_column(df: pd.DataFrame, column: str) -> pd.Series:
     return df[column].str.replace(",", "").astype(np.int32)
 
@@ -71,6 +79,7 @@ def clean_price_datapoints(df: pd.DataFrame):
 def clean(df: pd.DataFrame) -> pd.DataFrame:
     clean_owner_datapoints(df)
     clean_price_datapoints(df)
+    df[cnst.RELEASE_COLUMN] = str_to_year(df, cnst.RELEASE_COLUMN)
     df[cnst.SCORE_COLUMN_CLEAN] = cleanup_scores(
         df, pattern=r"^.*\(.*(\d{2,3}).*\)$", column=cnst.SCORE_COLUMN
     )

@@ -7,6 +7,7 @@ def main():
             files=cnst.DATA_FILES, duplcate_subset=[cnst.GAME_COLUMN, cnst.SCORE_COLUMN]
         )
     )
+    df = collector.merge_output_files(df)
     exporter.export(df, str(cnst.OUTPUT_FILE))
 
 

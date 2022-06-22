@@ -39,3 +39,11 @@ def collect_all_data_files(
         ),
         ignore_index=True,
     ).drop_duplicates(subset=duplcate_subset)
+
+
+def merge_output_files(df: pd.DataFrame):
+    df_left = read_excel(
+        str(cnst.INCOMING_OUTPUT_FILE), sheet_name=cnst.DATA_SHEET, dropna=False
+    )
+    df_left.rename(columns=cnst.GAME_COLUMN_RENAME, inplace=True)
+    return pd.merge(df, df_left[cnst.INCOMING_OUTPUT_FILE_COLUMNS], on=cnst.GAME_COLUMN)

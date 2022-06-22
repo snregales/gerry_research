@@ -5,6 +5,7 @@ ROOT_PATH = pathlib.Path(__file__).parent.parent
 DATA_DIR = ROOT_PATH / "data"
 OUTPUT_DIR = ROOT_PATH / "output"
 OUTPUT_FILE = OUTPUT_DIR / "game_data.xlsx"
+INCOMING_OUTPUT_FILE = OUTPUT_DIR / "Thesis analysis v3.xlsx"
 EARLY_ACCESS = DATA_DIR / "early_access.xlsx"
 EX_EARLY_ACCESS = DATA_DIR / "ex_early_access.xlsx"
 INDIE_FILE = DATA_DIR / "indie.xlsx"
@@ -27,6 +28,15 @@ MULTI_DEVELOPER_COLUMN = "Multi Dev"
 PUBLISHER_COLUMN = "Publisher(s)"
 EARLY_ACCESS_COLUMN = "Early access"
 INDIE_COLUMN = "Indie"
+GAME_ID_COLUMN = "gameid"
+GAME_COLUMN_RENAME = {GAME_ID_COLUMN: GAME_COLUMN}
+INCOMING_OUTPUT_FILE_COLUMNS = [
+    GAME_COLUMN,
+    "earlyaccessnum",
+    "circulation",
+    "circulationCOPY",
+    "ownergroups",
+]
 EXPORT_COLUMNS = [
     GAME_COLUMN,
     RELEASE_COLUMN,

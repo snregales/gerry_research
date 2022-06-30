@@ -37,22 +37,19 @@ def filter_less_or_equal_than(
     return df.loc[df[column] > number]
 
 
-def boolean_column(
-    df: pd.DataFrame, data_path: pl.Path, indicator_column: str
-) -> pd.Series:
-    return df[indicator_column].isin(
-        collector.read_excel(str(data_path), sheet_name=cnst.DATA_SHEET)[
-            indicator_column
-        ]
+def mark_early_access_column(df: pd.DataFrame) -> pd.Series:
+    return df[cnst.GAME_COLUMN].isin(
+        collector.collect_multiple_data_files(
+            map(str, [cnst.EARLY_ACCESS, cnst.EX_EARLY_ACCESS]),
+            duplcate_subset=[cnst.GAME_COLUMN],
+        )[cnst.GAME_COLUMN]
     )
 
 
-def mark_early_access_column(df: pd.DataFrame) -> pd.Series:
-    return boolean_column(df, cnst.EARLY_ACCESS, cnst.GAME_COLUMN)
-
-
 def mark_indie_column(df: pd.DataFrame) -> pd.Series:
-    return boolean_column(df, cnst.INDIE_FILE, cnst.GAME_COLUMN)
+    return collector.read_excel(str(cnst.INDIE_FILE), sheet_name=cnst.DATA_SHEET)[
+        cnst.GAME_COLUMN
+    ].isin(df[cnst.GAME_COLUMN])
 
 
 def clean_owner_datapoints(df: pd.DataFrame):

@@ -27,7 +27,7 @@ def read_excel(
     )
 
 
-def collect_all_data_files(
+def collect_multiple_data_files(
     files: list[pathlib.Path], duplcate_subset: list[str] = None
 ) -> pd.DataFrame:
     return pd.concat(

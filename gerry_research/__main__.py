@@ -3,7 +3,7 @@ from gerry_research import exporter, collector, constants as cnst, cleaner
 
 def main():
     df = cleaner.clean(
-        df=collector.collect_all_data_files(
+        df=collector.collect_multiple_data_files(
             files=cnst.DATA_FILES, duplcate_subset=[cnst.GAME_COLUMN, cnst.SCORE_COLUMN]
         )
     )
